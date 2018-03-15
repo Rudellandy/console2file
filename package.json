@@ -1,0 +1,17 @@
+{
+  "name": "console2file",
+  "version": "1.0.0",
+  "description": "Simple module to override console functions and log it your way",
+  "main": "index.js",
+  "repository": "git@github.com:Rudellandy/console2file.git",
+  "author": "Rudellandy <kontakt@rudellandy.com>",
+  "license": "MIT",
+  "private": false,
+  "scripts": {
+    "test": "node test.js"
+  },
+  "dependencies": {
+    "fs": "^0.0.1-security",
+    "util": "^0.10.3"
+  }
+}
