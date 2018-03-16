@@ -1,4 +1,14 @@
-## v1.0.1
+## v1.1.2
+* Moved index files to ./lib and test files to ./test
+* Added stackTrace to console.trace
+* All functions are now using default console.log (not themselves like previous)
+
+## v1.1.1
+* Removed unnecessary dependencies
+* Added devDependencies (for TypeScript)
+* Added build script (npm run build)
+
+## v1.1.0
 * Added comments to module (code is more clearly)
 * Changed default `install` function to `config`
 * Init function (`config`) can be used in 3 different ways *(without, one or two params)*
