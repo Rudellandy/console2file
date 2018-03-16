@@ -33,7 +33,7 @@ export module Console2File {
      * @private
      */
     const _consoleKeys = [
-        'log', 'info', 'warn', 'error', 'trace'
+        'log', 'info', 'warn', 'error', 'trace', 'debug'
     ];
 
     /**
@@ -69,6 +69,18 @@ export module Console2File {
         }
 
         return options;
+    }
+
+    /**
+     * Returns stack trace
+     * @returns {string}
+     */
+    function getTrace(): string {
+        return new Error()
+            .stack
+            .split('\n')
+            .splice(3)
+            .join('\n');
     }
 
     /**
@@ -114,13 +126,14 @@ export module Console2File {
 
             let message = parse(messageType, args);
 
+            /** Add trace to console.trace */
+            if (messageType === 'trace') {
+                message += `\n${getTrace()}`;
+            }
+
             /** Stdout to console */
             if (!options.fileOnly) {
-                if (messageType in _consoleKeys) {
-                    _console[messageType](message);
-                } else {
-                    _console.log(message);
-                }
+                _console.log(message);
             }
 
             /** Stdout to file */
@@ -197,8 +210,7 @@ export module Console2File {
 
             console[type] = stdout(type);
         }
-
-    }
+    };
 
 }
 
