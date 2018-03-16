@@ -1,4 +1,4 @@
-import {c2f} from './index';
+import {c2f} from "../lib";
 
 interface CustomConsole extends Console {
     rage: (message?: any, ...optionalParams) => void;
@@ -12,11 +12,11 @@ c2f.config({
     fileOnly: false,
 });
 
-c2f.config('rage', {
-    labels: true,
-    filePath: './rage.log',
-    fileOnly: false
-});
+// c2f.config('rage', {
+//     labels: true,
+//     filePath: './rage.log',
+//     fileOnly: false
+// });
 
 console.log('Testing started');
 
@@ -33,4 +33,4 @@ console.debug({
     such: 'easy'
 });
 
-console.rage('quit');
+// console.rage('quit');
