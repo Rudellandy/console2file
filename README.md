@@ -26,9 +26,11 @@ var c2f = require('console2file').default;
 // or
 import c2f from 'console2file';
 
-c2f();
+c2f({
+    fileOnly: false
+});
 
-console.log('Hurray!'); // logs 'Hurray!' to file ./stdout.log
+console.log('Hurray!'); // logs 'Hurray!' to file ./stdout.log and console
 ```
 
 ## Functions
