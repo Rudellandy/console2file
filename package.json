@@ -2,6 +2,7 @@
   "name": "console2file",
   "version": "1.0.0",
   "description": "Simple module to override console functions and log it your way",
+  "keywords": ["console.log", "console", "file", "console2file", "console to file", "log2file", "log to file"],
   "main": "index.js",
   "repository": "git@github.com:Rudellandy/console2file.git",
   "author": "Rudellandy <kontakt@rudellandy.com>",
