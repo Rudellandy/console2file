@@ -31,7 +31,7 @@ c2f({
     labels: true
 });
 
-console.log('Hurray!'); // logs '[LOG] Hurray!' to file ./stdout.log and console
+console.info('Hurray!'); // logs '[INFO] Hurray!' to file ./stdout.log and console
 ```
 
 ## Functions
