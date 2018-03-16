@@ -2,6 +2,7 @@ import * as util from 'util';
 import * as fs from 'fs';
 
 export module Console2File {
+
     export interface Options {
         filePath?: string;
         fileOnly?: boolean;
@@ -10,110 +11,197 @@ export module Console2File {
         interpreter?: (...args) => any;
     }
 
+    export interface StdoutFunction {
+        (message?: any, ...restOptions): void;
+    }
+
+    export interface ConfigFunction {
+        (options?: Options): void;
+        (messageType: string | string[], options?: Options): void;
+    }
+
+    /**
+     * Save console before override
+     * @type {Console}
+     * @private
+     */
     const _console: Console = Object.assign({}, console);
 
-    let _filePath,
-        _fileOnly,
-        _labels,
-        _timestamp,
-        _interpreter;
+    /**
+     * All console loggers without debug (debug will be used as console.log)
+     * @type {string[]}
+     * @private
+     */
+    const _consoleKeys = [
+        'log', 'info', 'warn', 'error', 'trace'
+    ];
 
-    function parse(...args): string {
-        // Arguments interpretation
-        if (typeof _interpreter === 'function') {
+    /**
+     * Default options
+     * @type {Options}
+     * @private
+     */
+    const _defaults: Options = {
+        filePath: './stdout.log',
+        fileOnly: true,
+        labels: false,
+        timestamp: false,
+        interpreter: util.inspect
+    };
+
+    /**
+     * All saved options
+     * @type {Options[]}
+     * @private
+     */
+    let _options: Options[] = [];
+
+    /**
+     * Returns options for specified message type
+     * @param {string} messageType
+     * @returns {Console2File.Options}
+     */
+    function getOptions(messageType: string): Options {
+        let options = Object.assign({}, _defaults);
+
+        if (messageType in _options) {
+            Object.assign(options, _options[messageType]);
+        }
+
+        return options;
+    }
+
+    /**
+     * Prepare message and return as string
+     * @param {string} messageType
+     * @param args
+     * @returns {string}
+     */
+    function parse(messageType: string, args: any[]): string {
+        const options = getOptions(messageType);
+
+        /** Interpreter */
+        if (typeof options.interpreter === 'function') {
             for(let index in args) {
-                if (typeof args[index] === 'string') {
-                    continue;
-                }
-                args[index] = _interpreter(args[index]);
+                /** Let string be without additional ' ' */
+                if (typeof args[index] === 'string') { continue; }
+
+                args[index] = options.interpreter(args[index]);
             }
         }
 
-        // Add label if set
-        if (_labels && this.callerName) {
-            args.unshift(`[${this.callerName.toUpperCase()}]`);
+        /** Label */
+        if (options.labels) {
+            args.unshift(`[${messageType.toUpperCase()}]`);
         }
 
-        // Add timestamp
-        if (_timestamp) {
+        /** Timestamp */
+        if (options.timestamp) {
             args.unshift(`[${new Date().toLocaleString()}]`);
         }
 
-        // Return parsed message as string
         return args.join(' ');
     }
 
-    export function logger(...args): void {
-        const stackTrace = (new Error()).stack;
+    /**
+     * Main stdout function
+     * @param {string} messageType
+     * @returns {StdoutFunction}
+     */
+    export function stdout(messageType: string): StdoutFunction {
+        return function(...args): void {
+            let options = getOptions(messageType);
 
-        // Set callerName for parse function - callerName is label
-        this.callerName = stackTrace.replace(/^Error\s+/, '')
-            .split('\n')[1]
-            .replace(/^\s+at (Console|Object)./, '')
-            .replace(/ \(.+\)$/, '')
-            .replace(/\@.+/, '');
+            let message = parse(messageType, args);
 
-        let message = parse.apply(this, args);
-
-        // Stdout to console
-        if (_fileOnly === false) {
-            // Exception to stdout debug
-            if (this.callerName === 'debug') {
-                this.callerName = 'log';
+            /** Stdout to console */
+            if (!options.fileOnly) {
+                if (messageType in _consoleKeys) {
+                    _console[messageType](message);
+                } else {
+                    _console.log(message);
+                }
             }
 
-            if(typeof _console[this.callerName] === 'function') {
-                _console[this.callerName](message);
+            /** Stdout to file */
+            if (typeof options.filePath === 'string' && options.filePath.length > 0) {
+                fs.appendFileSync(options.filePath, `${message}\n`);
+            }
+        };
+    }
+
+    /**
+     * Assign user options to object
+     * @param {Options} defaults
+     * @param {Options} userDefined
+     */
+    function assignOptions(defaults: Options, userDefined: Options): Options {
+        for (let optionKey in userDefined) {
+            if (defaults.hasOwnProperty(optionKey)) {
+                defaults[optionKey] = userDefined[optionKey];
             } else {
-                _console.log(message);
+                throw new Error(`Unknown {Options} parameter '${optionKey}'`);
             }
         }
 
-        // Stdout to file
-        if (typeof _filePath === 'string' && _filePath.length > 0) {
-            fs.appendFileSync(_filePath, `${message}\n`);
+        return defaults;
+    }
+
+    /**
+     * Configure logger for specified message types
+     * @param {Options | string | string[]} args
+     */
+    export const config: ConfigFunction = (...args): void => {
+        let _types: string[] = Object.assign([], _consoleKeys).concat(['debug']);
+        let _opts: Options = Object.assign({}, _defaults);
+
+        if (args.length === 0) {
+            /** No params - configure default functions with default options */
+        } else if (args.length === 1) {
+            if (Array.isArray(args[0])) {
+                /** Configure user functions with default options */
+                _types = args[0];
+            } else if (typeof args[0] === 'string') {
+                /** Configure user function with default options */
+                _types = [args[0]];
+            } else if (typeof args[0] === 'object') {
+                /** Configure default functions with user options */
+                _opts = assignOptions(_opts, args[0]);
+            } else {
+                throw new Error(`Expected {Options | string | string[]} but got {${typeof args[0]}}`);
+            }
+        } else if (args.length === 2) {
+            if (Array.isArray(args[0])) {
+                /** Configure user functions */
+                _types = args[0];
+            } else if (typeof args[0] === 'string') {
+                /** Configure user function */
+                _types = [args[0]];
+            } else {
+                throw new Error(`Expected {string | string[]} but got {${typeof args[0]}}`);
+            }
+
+            if (typeof args[1] === 'object') {
+                /** Configure with user options */
+                _opts = assignOptions(_opts, args[1]);
+            } else {
+                throw new Error(`Expected {Options} but got {${typeof args[1]}}`);
+            }
+        } else {
+            throw new Error(`Too much arguments. Expected 0 to 2 but got ${args.length}`);
         }
+
+        /** Assign options to global variable and override console functions */
+        for (let type of _types) {
+            _options[type] = _opts;
+
+            console[type] = stdout(type);
+        }
+
     }
 
-    export function install(options: Options = {}) {
-        const {
-            filePath = './stdout.log',
-            fileOnly = true,
-            labels = false,
-            timestamp = false,
-            interpreter = util.inspect,
-        } = options;
-
-        _filePath = filePath;
-        _fileOnly = fileOnly;
-        _labels = labels;
-        _timestamp = timestamp;
-        _interpreter = interpreter;
-
-        console.log = function log(...args): void {
-            logger.apply(this, args);
-        };
-
-        console.info = function info(...args): void {
-            logger.apply(this, args);
-        };
-
-        console.error = function error(...args): void {
-            logger.apply(this, args);
-        };
-
-        console.warn = function warn(...args): void {
-            logger.apply(this, args);
-        };
-
-        console.trace = function trace(...args): void {
-            logger.apply(this, args);
-        };
-
-        console.debug = function debug(...args): void {
-            logger.apply(this, args);
-        };
-    }
 }
 
-export default Console2File.install;
+export const c2f = Console2File;
+
+export default Console2File.config;

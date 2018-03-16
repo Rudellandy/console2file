@@ -1,12 +1,18 @@
-import c2f from './index';
+import {c2f} from './index';
 
-c2f({
+c2f.config({
     labels: true,
     timestamp: true,
-    fileOnly: true
+    fileOnly: false,
 });
 
-console.log('Yay!', ':D');
+c2f.config('rage', {
+    labels: true,
+    filePath: './rage.log',
+    fileOnly: false
+});
+
+console.log('Testing started');
 
 console.info('Hey, you!', 'I\'m still here!');
 
@@ -20,3 +26,5 @@ console.debug({
     'this': 'is',
     such: 'easy'
 });
+
+console.rage('quit');

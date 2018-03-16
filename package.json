@@ -1,6 +1,6 @@
 {
   "name": "console2file",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Simple module to override console functions and log it your way",
   "keywords": ["console.log", "console", "file", "console2file", "console to file", "log2file", "log to file"],
   "main": "index.js",
