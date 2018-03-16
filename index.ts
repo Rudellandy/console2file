@@ -12,7 +12,7 @@ export module Console2File {
     }
 
     export interface StdoutFunction {
-        (message?: any, ...restOptions): void;
+        (message?: any, ...optionalParams): void;
     }
 
     export interface ConfigFunction {

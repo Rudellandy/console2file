@@ -1,5 +1,11 @@
 import {c2f} from './index';
 
+interface CustomConsole extends Console {
+    rage: (message?: any, ...optionalParams) => void;
+}
+
+declare const console: CustomConsole;
+
 c2f.config({
     labels: true,
     timestamp: true,

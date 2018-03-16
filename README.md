@@ -1,6 +1,15 @@
 ## Console2File
 ### Node module that allows you to log your console into file (and much more)
 
+
+![GitHub package version](https://img.shields.io/github/package-json/v/rudellandy/console2file.svg)
+![bitHound](https://img.shields.io/bithound/dependencies/github/rudellandy/console2file.svg)
+![bitHound](https://img.shields.io/bithound/devDependencies/github/rudellandy/console2file.svg)
+![npm](https://img.shields.io/npm/dt/console2file.svg)
+![npm](https://img.shields.io/npm/v/console2file.svg)
+![license](https://img.shields.io/github/license/rudellandy/console2file.svg)
+
+
 ## Note
 Default `console.log`, `console.error`, etc. are overridden by this module to stay with familiar functions (only when configuring with default functions names - without params or one as `{Options}`)
 
