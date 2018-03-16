@@ -1,6 +1,6 @@
-import logger from './index';
+import c2f from './index';
 
-logger({
+c2f({
     labels: true,
     timestamp: true,
     fileOnly: true

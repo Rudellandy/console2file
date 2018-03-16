@@ -78,7 +78,7 @@ export module Console2File {
     export function install(options: Options = {}) {
         const {
             filePath = './stdout.log',
-            fileOnly = false,
+            fileOnly = true,
             labels = false,
             timestamp = false,
             interpreter = util.inspect,

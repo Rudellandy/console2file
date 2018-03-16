@@ -56,7 +56,7 @@ var Console2File;
     }
     Console2File.logger = logger;
     function install(options = {}) {
-        const { filePath = './stdout.log', fileOnly = false, labels = false, timestamp = false, interpreter = util.inspect, } = options;
+        const { filePath = './stdout.log', fileOnly = true, labels = false, timestamp = false, interpreter = util.inspect, } = options;
         _filePath = filePath;
         _fileOnly = fileOnly;
         _labels = labels;
