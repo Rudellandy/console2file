@@ -1,3 +1,6 @@
+## v1.1.3
+* Bump version to fix npm
+
 ## v1.1.2
 * Moved index files to ./lib and test files to ./test
 * Added stackTrace to console.trace
