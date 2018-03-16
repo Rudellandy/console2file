@@ -2,7 +2,7 @@
 ### Node module that allows you to log your console into file (and much more)
 
 ## Note
-Default `console.log`, `console.error`, etc. are overridden by this module to stay with familiar functions
+Default `console.log`, `console.error`, etc. are overridden by this module to stay with familiar functions (only when configuring with default functions names - without params or one as `{Options}`)
 
 ## Table of Contents
 * [Installation](#installation)
