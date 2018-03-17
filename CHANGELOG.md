@@ -1,3 +1,6 @@
+## v1.1.4
+* Added _origin property to allow user access to not modified console (`console._origin.log('Not modified log function')`)
+
 ## v1.1.3
 * Bump version to fix npm
 
