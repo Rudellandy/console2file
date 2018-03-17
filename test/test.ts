@@ -2,6 +2,7 @@ import {c2f} from "../lib";
 
 interface CustomConsole extends Console {
     rage: (message?: any, ...optionalParams) => void;
+    _origin: Console;
 }
 
 declare const console: CustomConsole;
@@ -12,11 +13,11 @@ c2f.config({
     fileOnly: false,
 });
 
-// c2f.config('rage', {
-//     labels: true,
-//     filePath: './rage.log',
-//     fileOnly: false
-// });
+c2f.config('rage', {
+    labels: true,
+    filePath: './rage.log',
+    fileOnly: false
+});
 
 console.log('Testing started');
 
@@ -33,4 +34,6 @@ console.debug({
     such: 'easy'
 });
 
-// console.rage('quit');
+console.rage('quit');
+
+console._origin.log('Old, not modified console.log');

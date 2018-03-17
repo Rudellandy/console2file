@@ -3,6 +3,10 @@ import * as fs from 'fs';
 
 export module Console2File {
 
+    export interface c2fConsole extends Console {
+        _origin: Console;
+    }
+
     export interface Options {
         filePath?: string;
         fileOnly?: boolean;
@@ -20,12 +24,17 @@ export module Console2File {
         (messageType: string | string[], options?: Options): void;
     }
 
+    declare let console: c2fConsole;
+
     /**
      * Save console before override
      * @type {Console}
      * @private
      */
     const _console: Console = Object.assign({}, console);
+
+    /** Assign _origin property to allow access to original console */
+    console._origin = _console;
 
     /**
      * All console loggers without debug (debug will be used as console.log)

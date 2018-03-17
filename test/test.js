@@ -6,11 +6,11 @@ lib_1.c2f.config({
     timestamp: true,
     fileOnly: false,
 });
-// c2f.config('rage', {
-//     labels: true,
-//     filePath: './rage.log',
-//     fileOnly: false
-// });
+lib_1.c2f.config('rage', {
+    labels: true,
+    filePath: './rage.log',
+    fileOnly: false
+});
 console.log('Testing started');
 console.info('Hey, you!', 'I\'m still here!');
 console.error('Whoops! Something went wrong.');
@@ -20,4 +20,5 @@ console.debug({
     'this': 'is',
     such: 'easy'
 });
-// console.rage('quit');
+console.rage('quit');
+console._origin.log('Old, not modified console.log');
