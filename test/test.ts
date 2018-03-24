@@ -1,39 +1,39 @@
 import {c2f} from "../lib";
 
-interface CustomConsole extends Console {
+interface ICustomConsole extends Console {
     rage: (message?: any, ...optionalParams) => void;
     _origin: Console;
 }
 
-declare const console: CustomConsole;
+declare const console: ICustomConsole;
 
 c2f.config({
+    fileOnly: false,
     labels: true,
     timestamp: true,
+});
+
+c2f.config("rage", {
     fileOnly: false,
-});
-
-c2f.config('rage', {
+    filePath: "./rage.log",
     labels: true,
-    filePath: './rage.log',
-    fileOnly: false
 });
 
-console.log('Testing started');
+console.log("Testing started");
 
-console.info('Hey, you!', 'I\'m still here!');
+console.info("Hey, you!", "I'm still here!");
 
-console.error('Whoops! Something went wrong.');
+console.error("Whoops! Something went wrong.");
 
-console.warn('Warning!', 'This is test alert.');
+console.warn("Warning!", "This is test alert.");
 
-console.trace(['this', 'is', 'awesome']);
+console.trace(["this", "is", "awesome"]);
 
 console.debug({
-    'this': 'is',
-    such: 'easy'
+    c2f: "is",
+    such: "easy",
 });
 
-console.rage('quit');
+console.rage("quit");
 
-console._origin.log('Old, not modified console.log');
+console._origin.log("Old, not modified console.log");
