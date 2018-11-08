@@ -10,7 +10,7 @@ declare const console: ICustomConsole;
 c2f.config({
     fileOnly: false,
     labels: true,
-    timestamp: true,
+    timestamp: "YYYY/MM/DD HH:mm:ss:SSS",
 });
 
 c2f.config("rage", {

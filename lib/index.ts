@@ -1,4 +1,5 @@
 import * as fs from "fs";
+import * as moment from "moment";
 import * as util from "util";
 
 export namespace Console2File {
@@ -11,7 +12,7 @@ export namespace Console2File {
         filePath?: string;
         fileOnly?: boolean;
         labels?: boolean;
-        timestamp?: boolean;
+        timestamp?: boolean | string;
         interpreter?: (...args) => any;
     }
 
@@ -116,7 +117,18 @@ export namespace Console2File {
 
         /** Timestamp */
         if (options.timestamp) {
-            args.unshift(`[${new Date().toLocaleString()}]`);
+            switch (typeof options.timestamp) {
+                case "boolean":
+                    args.unshift(`[${new Date().toLocaleString()}]`);
+                    break;
+                case "string":
+                    args.unshift(`[${moment().format(options.timestamp as string)}]`);
+                    break;
+                default:
+                    throw new Error(
+                        `Invalid timestamp type (${typeof options.timestamp}). Should be (boolean | string)`
+                    );
+            }
         }
 
         return args.join(" ");

@@ -1,6 +1,6 @@
 {
   "name": "console2file",
-  "version": "1.1.5",
+  "version": "1.1.6",
   "description": "Simple module to override console functions and log it your way",
   "keywords": [
     "log",
@@ -24,8 +24,12 @@
     "test": "node test/test.js"
   },
   "devDependencies": {
+    "@types/moment": "^2.13.0",
     "@types/node": "^9.4.7",
     "tslint": "^5.9.1",
     "typescript": "^2.7.2"
+  },
+  "dependencies": {
+    "moment": "^2.22.2"
   }
 }

@@ -4,7 +4,7 @@ const lib_1 = require("../lib");
 lib_1.c2f.config({
     fileOnly: false,
     labels: true,
-    timestamp: true,
+    timestamp: "YYYY/MM/DD HH:mm:ss:SSS",
 });
 lib_1.c2f.config("rage", {
     fileOnly: false,
