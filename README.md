@@ -68,13 +68,13 @@ console.rage('quit'); // logs '[RAGE] quit' only to file ./stdout.log
 ```
 
 ## Parameters
-Parameter   | Default value    | Description
------------ | ---------------- | ---
-filePath    | `'./stdout.log'` | File path to log your console (set empty string or not string to disable)
-fileOnly    | `true`           | Log only to file or both (file and console)
-labels      | `false`          | Display labels (i.e. `[LOG]`, `[ERROR]`, ...)
-timestamp   | `false`          | Display timestamp (i.e. `[2018-3-16 00:42:29]`)
-interpreter | `util.inspect`   | Interpretation of non string values (allows to log full objects not as `[Object object]` etc.)
+Parameter   | Default value    | Type                  | Description
+----------- | ---------------- | --------------------- | -----------
+filePath    | `'./stdout.log'` | `string`              | File path to log your console (set empty string or not string to disable)
+fileOnly    | `true`           | `boolean`             | Log only to file or both (file and console)
+labels      | `false`          | `boolean`             | Display labels (i.e. `[LOG]`, `[ERROR]`, ...)
+timestamp   | `false`          | `boolean` or `string` | Display timestamp (i.e. `[2018-3-16 00:42:29]`). Format is from [moment.js](https://momentjs.com/docs/#/parsing/string-format/)
+interpreter | `util.inspect`   | `function`            | Interpretation of non string values (allows to log full objects not as `[Object object]` etc.)
 
 ## License
 MIT

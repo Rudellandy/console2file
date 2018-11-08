@@ -1,3 +1,6 @@
+## v1.1.6
+* Added moment.js for timestamp usage
+
 ## v1.1.5
 * Added TSLint to project - standardized code
 
